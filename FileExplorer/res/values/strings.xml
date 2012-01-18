@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">File Explorer</string>
+    
+    <string name="file_more_empty">vide</string>
+    <string name="file_more_elements">éléments</string>
+    
+    <string name="options_share">Partager</string>
+    <string name="options_create">Nouveau dossier</string>
+    <string name="options_preview">Aperçu</string>
+    <string name="options_remove">Supprimer</string>
+    <string name="options_bin">Corbeille</string>
+    <string name="options_emptybin">Vider</string>
+    
+    <string name="menu_remove">Supprimer</string>
+    <string name="menu_move">Déplacer</string>
+    <string name="menu_copy">Copier</string>
+    <string name="menu_rename">Renommer</string>
+    <string name="menu_cut">Couper</string>
+    <string name="menu_paste">Coller</string>
+    <string name="menu_details">Détails</string>
+    
+    <string name="details_type">Type :</string>
+    <string name="details_size">Taille :</string>
+    
+    <string name="create_dir_message">Nom :</string>
+    
+    <string name="type_image">Image</string>
+    <string name="type_audio">Audio</string>
+    <string name="type_video">Vidéo</string>
+    <string name="type_internet">Internet</string>
+    <string name="type_unknown">Inconnu</string>
+    <string name="type_folder">Dossier</string>
+    <string name="type_text">Texte brut</string>
+        
+    <string name="ok">Ok</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="cancel">Annuler</string>
+    
+    <string name="create_dir_error">La création du dossier a échoué</string>
+    <string name="remove_file_error">La suppression du fichier a échoué</string>
+    <string name="copy_file_error">La copie du fichier a échoué</string>
+    <string name="cut_file_error">Le déplacement du fichier a échoué</string>
+    <string name="rename_file_error">Impossible de renommer l\'élément</string>
+    <string name="remove_folder_error">Impossible de supprimer tout le dossier</string>
+        
+</resources>
