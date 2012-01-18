@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/background" >
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical|right" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.30"
+            android:text="@string/app_name"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ImageButton
+            android:id="@+id/rootButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.30"
+            android:src="@drawable/home" />
+
+        <ImageButton
+            android:id="@+id/parentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.30"
+            android:src="@drawable/parent" />
+
+        <ImageButton
+            android:id="@+id/refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.30"
+            android:src="@drawable/refresh" />
+
+    </LinearLayout>
+
+    <ListView
+        android:overScrollHeader="@color/background"
+        android:overScrollFooter="@color/background"
+        android:overScrollMode="never"
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="354dp"
+        android:layout_weight="0.70"
+        android:drawSelectorOnTop="false"
+        android:cacheColorHint="#00000000"
+		android:listSelector="@android:color/transparent"  />
+
+    <TextView
+        android:id="@+id/currentFileTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:textColor="#000000"
+        android:padding="5dp"
+        android:text="TextView" />
+
+</LinearLayout>
