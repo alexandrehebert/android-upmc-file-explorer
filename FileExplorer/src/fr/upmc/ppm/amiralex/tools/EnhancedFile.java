@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import fr.upmc.ppm.amiralex.tools.FileTypeResolver.FileType;
@@ -58,6 +60,20 @@ public class EnhancedFile extends File {
 				+ (canRead() ? "r" : "-")
 				+ (canWrite() ? "w" : "-")
 				+ (canExecute() ? "x" : "-");
+	}
+	
+	public String lastModified(String format) {
+		
+		return lastModified(format, "-");
+		
+	}
+
+	public String lastModified(String format, String dflt) {
+		
+		long d;
+		if ((d = lastModified()) == 0) return dflt;
+		else return new SimpleDateFormat(format).format(new Date(d));
+		
 	}
 	
 	public String getRealAbsolutePath() {

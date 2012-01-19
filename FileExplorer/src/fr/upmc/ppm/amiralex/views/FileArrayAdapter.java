@@ -145,11 +145,10 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
 		public void show(EnhancedFile f) {
 
             String textLabel = f.getName();
-            SimpleDateFormat sdf = new SimpleDateFormat("(d/MM/y)");
-            long elements = new EnhancedFile(f).getLength();
+            long elements = f.getLength();
             
             label.setText(textLabel);
-            labelDate.setText(sdf.format(new Date(f.lastModified())));
+            labelDate.setText("(" + f.lastModified("d/MM/y", v.getContext().getResources().getString(R.string.unknown)) + ")");
             labelRights.setText(f.getRights());
             labelMore.setText(!f.isDirectory() ? Utils.formatSize(elements, 0) : (elements == 0 ? emptyString : elements + " " + elementsString));
             icon.setImageResource(f.getImageRessource());
