@@ -3,70 +3,68 @@
     
     <string name="app_name">File Walker</string>
     
-    <string name="file_more_empty">empty</string>
-    <string name="file_more_elements">elements</string>
+    <string name="file_more_empty">vide</string>
+    <string name="file_more_elements">éléments</string>
     
-    <string name="options_share">Share</string>
-    <string name="options_mod">Display</string>
-    <string name="options_create">New folder</string>
-    <string name="options_preview">Preview</string>
-    <string name="options_remove">Delete</string>
-    <string name="options_sort">Sort</string>
-    <string name="options_bin">Trash</string>
-    <string name="options_emptybin">Clear</string>
+    <string name="options_share">Partager</string>
+    <string name="options_mod">Affichage</string>
+    <string name="options_create">Nouveau dossier</string>
+    <string name="options_preview">Aperçu</string>
+    <string name="options_remove">Supprimer</string>
+    <string name="options_sort">Tri</string>
+    <string name="options_bin">Corbeille</string>
+    <string name="options_emptybin">Vider</string>
     
-    <string name="menu_remove">Delete</string>
-    <string name="menu_move">Move</string>
-    <string name="menu_copy">Copy</string>
-    <string name="menu_rename">Rename</string>
-    <string name="menu_cut">Cut</string>
-    <string name="menu_paste">Paste</string>
-    <string name="menu_details">More</string>
+    <string name="menu_remove">Supprimer</string>
+    <string name="menu_move">Déplacer</string>
+    <string name="menu_copy">Copier</string>
+    <string name="menu_rename">Renommer</string>
+    <string name="menu_cut">Couper</string>
+    <string name="menu_paste">Coller</string>
+    <string name="menu_details">Détails</string>
     
     <string name="details_type">Type :</string>
-    <string name="details_size">Size :</string>
+    <string name="details_size">Taille :</string>
     
-    <string name="create_dir_message">Name :</string>
+    <string name="create_dir_message">Nom :</string>
     
     <string name="type_image">Image</string>
     <string name="type_audio">Audio</string>
-    <string name="type_video">Video</string>
+    <string name="type_video">Vidéo</string>
     <string name="type_internet">Internet</string>
-    <string name="type_unknown">Unknown</string>
-    <string name="type_folder">Folder</string>
-    <string name="type_text">Plain text</string>
+    <string name="type_unknown">Inconnu</string>
+    <string name="type_folder">Dossier</string>
+    <string name="type_text">Texte brut</string>
         
     <string name="ok">Ok</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="cancel">Cancel</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="cancel">Annuler</string>
     
-    <string name="copy_shot"> copied !</string>
+    <string name="copy_shot"> copié !</string>
     
-    <string name="sort_by_title">Sort by...</string>
+    <string name="sort_by_title">Trier par...</string>
     <string-array
         name="sort_by">
 	    <item name="date">Date</item>
-	    <item name="ext">Extension</item>
-	    <item name="name">Name</item>
+	    <item name="ext">Extention</item>
+	    <item name="name">Nom</item>
     </string-array>
 
-    <string name="mod_by_title">Display by...</string>
+    <string name="mod_by_title">Afficher par...</string>
     <string-array
         name="mod_by">
-	    <item name="date">Simple List</item>
-	    <item name="date">List (default)</item>
-	    <item name="ext">Advanced List</item>
-	    <item name="name">Grid</item>
+	    <item name="date">Liste simplifiée</item>
+	    <item name="date">Liste (défaut)</item>
+	    <item name="ext">Liste avancée</item>
+	    <item name="name">Grille</item>
     </string-array>
     
-    <string name="create_dir_error">File creation failed</string>
-    <string name="remove_file_error">File deletion failed</string>
-    <string name="copy_file_error">File copy failed</string>
-    <string name="cut_file_error">File movement failed</string>
-    <string name="rename_file_error">File renaming failed</string>
-    <string name="remove_folder_error">Impossible to remove the entire folder</string>
-    
-    <string name="unknown">unknown</string>
+    <string name="create_dir_error">La création du dossier a échoué</string>
+    <string name="remove_file_error">La suppression du fichier a échoué</string>
+    <string name="copy_file_error">La copie du fichier a échoué</string>
+    <string name="cut_file_error">Le déplacement du fichier a échoué</string>
+    <string name="rename_file_error">Impossible de renommer l\'élément</string>
+    <string name="remove_folder_error">Impossible de supprimer tout le dossier</string>
         
 </resources>
