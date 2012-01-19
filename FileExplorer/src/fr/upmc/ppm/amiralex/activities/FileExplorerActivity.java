@@ -31,21 +31,36 @@ import fr.upmc.ppm.amiralex.views.TypeMod;
 
 public class FileExplorerActivity extends ListActivity {
 
-	protected File current, root;
-	protected TextView whereTv;
-	protected ImageButton rootBtn, parentBtn, refreshBtn;
-	private File copy;
-	private boolean cut = false;
-	private File trash;
-	private FileArrayAdapter listAdapter;
-	private TypeMod mod = TypeMod.LIST;
-	private FileArrayComparator sort = FileArrayComparator.BY_DONT_CARE;
+	/* ---------------------------------------------------------------------- */
+	// membres
+	/* ---------------------------------------------------------------------- */
+
+	protected File current, root; // dossiers courant et racine
+	protected TextView whereTv; // textView affichant l'emplacement courant
+	protected ImageButton rootBtn, parentBtn, refreshBtn; // boutons de
+															// navigation
+	private File copy; // fichier dont la copie est demandée
+	private boolean cut = false; // copie ou coupie xD
+	private File trash; // emplacement de la corbeille
+	private FileArrayAdapter listAdapter; // adapter de la listView
+	private TypeMod mod = TypeMod.LIST; // mode d'affichage
+	private FileArrayComparator sort = FileArrayComparator.BY_DONT_CARE; // mode
+																			// de
+																			// tri
+
+	/* ---------------------------------------------------------------------- */
+	// constantes
+	/* ---------------------------------------------------------------------- */
 
 	private static final String TRASH_NAME = "RECYCLE.BIN";
 	private static final String PREF_NAME = "File_Explorer_Pref";
 	private static final String PREF_KEY_CURRENT = "currentFile";
 	private static final String PREF_KEY_MOD = "typeMod";
 	private static final String PREF_KEY_SORT = "sortList";
+
+	/* ---------------------------------------------------------------------- */
+	// évènements système
+	/* ---------------------------------------------------------------------- */
 
 	@Override
 	protected void onCreate(Bundle b) {
@@ -84,23 +99,24 @@ public class FileExplorerActivity extends ListActivity {
 
 		refreshBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				setDirectory(current);
+				refreshDirectory();
 			}
 		});
-		
+
 		whereTv.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				ClipboardManager clipboard = (ClipboardManager)
-				        getSystemService(Context.CLIPBOARD_SERVICE);
+				ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 				clipboard.setText(whereTv.getText());
-				Toast.makeText(FileExplorerActivity.this, 
-						"\"" + whereTv.getText() + "\" " + getResources().getString(R.string.copy_shot), 
+				Toast.makeText(
+						FileExplorerActivity.this,
+						"\"" + whereTv.getText() + "\" "
+								+ getResources().getString(R.string.copy_shot),
 						Toast.LENGTH_SHORT).show();
 			}
 		});
 
 		loadPreferences();
-		setDirectory(current);
+		refreshDirectory();
 	}
 
 	@Override
@@ -109,35 +125,20 @@ public class FileExplorerActivity extends ListActivity {
 		commitPreferences();
 	}
 
-	private void loadPreferences() {
-
-		SharedPreferences settings = getSharedPreferences(
-				PREF_NAME + isTrash(), 0);
-		mod = TypeMod.values()[settings.getInt(PREF_KEY_MOD, TypeMod.LIST.ordinal())];
-		current = new File(settings.getString(PREF_KEY_CURRENT, root.getAbsolutePath()));
-		sort = FileArrayComparator.values()[settings.getInt(PREF_KEY_SORT, 0)];
-		
-	}
-
-	private void commitPreferences() {
-		
-		SharedPreferences settings = getSharedPreferences(
-				PREF_NAME + isTrash(), 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putInt(PREF_KEY_MOD, mod.ordinal());
-		editor.putInt(PREF_KEY_SORT, sort.ordinal());
-		editor.putString(PREF_KEY_CURRENT, current.getAbsolutePath());
-		editor.commit();
-
-	}
-
+	/**
+	 * Lorsque l'activity reprend la main, on rafraichi les données : par
+	 * exemple dans le cas ou la corbeille est passée par là...
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		// rafraichissement
-		setDirectory(current);
+		refreshDirectory();
 	}
 
+	/**
+	 * On indexe les options sur leur code de string dans le registre. Cela nous
+	 * permet d'identifier le menu séléctionné lors du onOptionsItemSelected
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -154,7 +155,7 @@ public class FileExplorerActivity extends ListActivity {
 	}
 
 	/**
-	 * On indexe les menus sur leur code de change dans le registre Cela nous
+	 * On indexe les menus sur leur code de string dans le registre. Cela nous
 	 * permet d'identifier le menu séléctionné lors du onContextItemSelected
 	 */
 	@Override
@@ -190,6 +191,7 @@ public class FileExplorerActivity extends ListActivity {
 			break;
 		case R.string.menu_remove:
 			removeFileWithLoading(f);
+			break;
 		case R.string.menu_cut:
 			cut = true;
 			copy = f;
@@ -212,7 +214,7 @@ public class FileExplorerActivity extends ListActivity {
 			break;
 		}
 
-		setDirectory(current);
+		refreshDirectory();
 		return super.onContextItemSelected(item);
 	}
 
@@ -245,7 +247,7 @@ public class FileExplorerActivity extends ListActivity {
 	private boolean bugPreviewMusic = false;
 
 	/**
-	 * On remonte dans l'arborescence jusqu'au noeud root Si on arrive au noeud
+	 * On remonte dans l'arborescence jusqu'au noeud root. Si on arrive au noeud
 	 * root, l'application est fermée
 	 */
 	@Override
@@ -277,28 +279,36 @@ public class FileExplorerActivity extends ListActivity {
 		if (f == null || !f.isDirectory())
 			return false;
 
+		// si le dossier que l'on veut afficher est la corbeille
 		if (!isTrash() && f.getAbsolutePath().equals(trash.getAbsolutePath()))
 			return openTrash();
-
-		// this.setProgressBarIndeterminateVisibility(true);
 
 		whereTv.setText(f.getAbsolutePath());
 
 		File[] files = (files = f.listFiles()) != null ? files : new File[] {};
+		// si le File est un fichier, on l'ouvre par Intent
 		if (!f.getAbsolutePath().equals(root.getAbsolutePath())
 				&& files.length == 0)
 			return setFile(f);
 
 		current = f;
 
+		// on réactualise la liste des éléments
 		listAdapter = new FileArrayAdapter(this, R.layout.filerow, files, mod);
 		this.setListAdapter(listAdapter);
 		listAdapter.sort(sort);
 
-		// this.setProgressBarIndeterminateVisibility(false);
-
 		return true;
 
+	}
+
+	/**
+	 * Racourci d'écriture pour le rafraichissement des éléments du dossier
+	 * courant, on réactualise par la même le nombre d'éléments des dossiers et
+	 * la taille des fichiers (au niveau des infos affichées)
+	 */
+	private void refreshDirectory() {
+		setDirectory(current);
 	}
 
 	/**
@@ -325,14 +335,26 @@ public class FileExplorerActivity extends ListActivity {
 
 	}
 
+	/**
+	 * Balance un Intent à la corbeille Et paf, ça fait des chocapics !
+	 * 
+	 * @return
+	 */
 	public boolean openTrash() {
 		if (isTrash() || !hasTrash())
 			return false;
-		startActivityForResult(new Intent(this, FileBinActivity.class).putExtra("file",
-				trash.getAbsolutePath()).putExtra("i_am_a_trash", true), 1);
+		startActivityForResult(
+				new Intent(this, FileBinActivity.class).putExtra("file",
+						trash.getAbsolutePath()).putExtra("i_am_a_trash", true),
+				1);
 		return true;
 	}
 
+	/**
+	 * Vide la corbeille par récursion
+	 * 
+	 * @return
+	 */
 	public boolean clearTrash() {
 		if (!hasTrash())
 			return false;
@@ -341,6 +363,11 @@ public class FileExplorerActivity extends ListActivity {
 		return b;
 	}
 
+	/**
+	 * Créé la corbeille
+	 * 
+	 * @return
+	 */
 	public void createTrash() {
 		if (hasTrash())
 			return;
@@ -349,26 +376,50 @@ public class FileExplorerActivity extends ListActivity {
 		trash.mkdirs();
 	}
 
+	/**
+	 * Vérifie si la corbeille existe ou non
+	 * 
+	 * @return
+	 */
 	public boolean hasTrash() {
 		return trash != null && trash.exists();
 	}
 
+	/**
+	 * Vérifie si l'activity courante Est la corbeille On aurait pu utiliser un
+	 * instanceOf ou autres, mais faut bien rigoler un peu
+	 * 
+	 * @return
+	 */
 	public boolean isTrash() {
 		return getIntent().hasExtra("i_am_a_trash");
 	}
 
+	/**
+	 * Modifie le type d'affichage
+	 * 
+	 * @param item
+	 */
 	private void switchMod(int item) {
 		mod = TypeMod.values()[item];
 		((FileArrayAdapter) getListAdapter()).setMod(mod);
 		getListView().invalidateViews();
 	}
 
+	/**
+	 * Modifie le type de tri
+	 * 
+	 * @param item
+	 */
 	protected void switchSort(int item) {
 		sort = FileArrayComparator.values()[item];
 		if (listAdapter != null)
 			listAdapter.sort(sort);
 	}
 
+	/**
+	 * Dialogue de selection du mode de tri
+	 */
 	private void openSortMenu() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.sort_by_title);
@@ -381,6 +432,9 @@ public class FileExplorerActivity extends ListActivity {
 		builder.create().show();
 	}
 
+	/**
+	 * Dialogue de selection du mode d'affichage
+	 */
 	private void openModMenu() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.mod_by_title);
@@ -428,12 +482,48 @@ public class FileExplorerActivity extends ListActivity {
 					R.string.create_dir_error, Toast.LENGTH_LONG).show();
 	}
 
+	/**
+	 * Renomme le dossier/fichier
+	 * 
+	 * @param f
+	 * @param name
+	 */
 	public void renameFile(File f, String name) {
 		if (f.renameTo(new File(current.getAbsolutePath() + "/" + name)))
-			setDirectory(current);
+			refreshDirectory();
 		else
 			Toast.makeText(FileExplorerActivity.this,
 					R.string.rename_file_error, Toast.LENGTH_LONG);
+	}
+
+	/**
+	 * Chargement des préférences
+	 */
+	private void loadPreferences() {
+
+		SharedPreferences settings = getSharedPreferences(
+				PREF_NAME + isTrash(), 0);
+		mod = TypeMod.values()[settings.getInt(PREF_KEY_MOD,
+				TypeMod.LIST.ordinal())];
+		current = new File(settings.getString(PREF_KEY_CURRENT,
+				root.getAbsolutePath()));
+		sort = FileArrayComparator.values()[settings.getInt(PREF_KEY_SORT, 0)];
+
+	}
+
+	/**
+	 * Enregistrement des préférences : pérénisation des données
+	 */
+	private void commitPreferences() {
+
+		SharedPreferences settings = getSharedPreferences(
+				PREF_NAME + isTrash(), 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putInt(PREF_KEY_MOD, mod.ordinal());
+		editor.putInt(PREF_KEY_SORT, sort.ordinal());
+		editor.putString(PREF_KEY_CURRENT, current.getAbsolutePath());
+		editor.commit();
+
 	}
 
 	/**
@@ -495,6 +585,10 @@ public class FileExplorerActivity extends ListActivity {
 
 	}
 
+	/* ---------------------------------------------------------------------- */
+	// méthodes qui devront être rendues asynchrones à therme
+	/* ---------------------------------------------------------------------- */
+	
 	public boolean copyFileWithLoading(File from, File to) {
 		if (new EnhancedFile(from).copyTo(to))
 			return true;
@@ -517,6 +611,8 @@ public class FileExplorerActivity extends ListActivity {
 		 * return true; Toast.makeText(this, R.string.remove_folder_error,
 		 * Toast.LENGTH_SHORT); return false; }
 		 */
+		
+		// le fichier est déplacé dans la corbeille, non plus supprimé
 		return cutFileWithLoading(f, trash);
 	}
 
@@ -534,32 +630,26 @@ public class FileExplorerActivity extends ListActivity {
 			return false;
 		}
 		/*
-		AsyncTask<File, Integer, Exception> at = new AsyncTask<File, Integer, Exception>() {
-			@Override
-			protected void onPreExecute() {
-				super.onPreExecute();
-			}
-			@Override
-			protected Exception doInBackground(File... f) {
-				for (int i = 0; i < f.length; i++) {
-					f[i].delete();
-					this.publishProgress(i, f.length);
-				}
-				return null;
-			}
-			@Override
-			protected void onProgressUpdate(Integer... values) {
-				super.onProgressUpdate(values);
-			}
-			@Override
-			protected void onPostExecute(Exception result) {
-				super.onPostExecute(result);
-				if (result != null)
-					Toast.makeText(FileExplorerActivity.this, result.getMessage(), Toast.LENGTH_SHORT);
-			}
-		};
-		at.execute(new EnhancedFile(f).listAllFiles().toArray(new File[]{}));
-		return true;*/
+		 * TEST d'IMPLEMENTATION de L'ASYNCHRONE + logo de chargement
+		 * 
+		 * // this.setProgressBarIndeterminateVisibility(false); AsyncTask<File,
+		 * Integer, Exception> at = new AsyncTask<File, Integer, Exception>() {
+		 * 
+		 * @Override protected void onPreExecute() { super.onPreExecute(); }
+		 * 
+		 * @Override protected Exception doInBackground(File... f) { for (int i
+		 * = 0; i < f.length; i++) { f[i].delete(); this.publishProgress(i,
+		 * f.length); } return null; }
+		 * 
+		 * @Override protected void onProgressUpdate(Integer... values) {
+		 * super.onProgressUpdate(values); }
+		 * 
+		 * @Override protected void onPostExecute(Exception result) {
+		 * super.onPostExecute(result); if (result != null)
+		 * Toast.makeText(FileExplorerActivity.this, result.getMessage(),
+		 * Toast.LENGTH_SHORT); } }; at.execute(new
+		 * EnhancedFile(f).listAllFiles().toArray(new File[]{})); return true;
+		 */
 	}
 
 }

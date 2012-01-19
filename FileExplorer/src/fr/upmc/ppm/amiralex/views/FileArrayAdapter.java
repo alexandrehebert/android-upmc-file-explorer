@@ -130,7 +130,6 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
 			case LIST_LIGHT: --list;
 			case LIST: --list;
 			case LIST_ADVANCED:
-				Log.d("test", "" + list);
 				if (mod != TypeMod.GRID) {
 					icon.setMinimumWidth(30);
 					v.setBackgroundColor(Color.TRANSPARENT);
