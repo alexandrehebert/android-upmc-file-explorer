@@ -165,10 +165,12 @@ public class EnhancedFile extends File {
 	}
 	
 	public static <Result> Result walkFiles(FileWalker<Result> fw, File f, Result r) {
-		if (f == null) return null;
-		for (File fs : f.listFiles())
-			walkFiles(fw, fs, r);
-		return fw.walk(f, r);
+		Result rtmp = r;
+		if (f == null) return rtmp;
+		if (f.listFiles() != null)
+			for (File fs : f.listFiles())
+				rtmp = walkFiles(fw, fs, rtmp);
+		return fw.walk(f, rtmp);
 	}
 	
 	public static interface FileWalker<Result> {
