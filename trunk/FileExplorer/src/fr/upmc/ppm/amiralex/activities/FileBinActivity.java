@@ -12,6 +12,15 @@ import android.view.View;
 import android.widget.TextView;
 import fr.upmc.ppm.amiralex.R;
 
+/**
+ * 
+ * On réutilise la classe FileExplorer pour le parcours des fichiers de la corbeille
+ * Mais on restreint la navigation dans le système de fichier à la corbeille uniquement
+ * Par ailleurs, les menus contextuels sont remplacés
+ * 
+ * @author alexandre
+ *
+ */
 public class FileBinActivity extends FileExplorerActivity {
 	
 	@Override
@@ -22,13 +31,9 @@ public class FileBinActivity extends FileExplorerActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		boolean b = super.onCreateOptionsMenu(menu);
-
-		menu.removeItem(R.string.options_bin);
 		menu.add(Menu.NONE, R.string.options_emptybin, Menu.NONE, R.string.options_emptybin)
 			.setIcon(R.drawable.bin_selector);
-		
-		return b;
+		return true;
 	}
 	
 	@Override
@@ -44,13 +49,12 @@ public class FileBinActivity extends FileExplorerActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
 		switch(item.getItemId()) {
 		case R.string.options_emptybin:
-			createFolderWithAlertDialog();
+			clearTrash();
+			setDirectory(root);
 			break;
 		}
-		
 		return super.onOptionsItemSelected(item);
 	}
 	

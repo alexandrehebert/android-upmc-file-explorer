@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.upmc.ppm.amiralex.tools.FileTypeResolver.FileType;
 
@@ -27,9 +29,9 @@ public class EnhancedFile extends File {
 
 	public String getExt() {
 		if (isDirectory())
-			return "dir";
+			return "";
 		String[] tmp = getName().split("\\.");
-		return tmp.length == 1 ? "bin" : tmp[tmp.length - 1];
+		return tmp.length == 1 ? "bin" : tmp[tmp.length - 1].toLowerCase();
 	}
 
 	public FileType getType() {
@@ -43,6 +45,13 @@ public class EnhancedFile extends File {
 
 	public int getImageRessource() {
 		return getType().getImageRessource();
+	}
+	
+	public String getRights() {
+		return (isDirectory() ? "d" : "")
+				+ (canRead() ? "r" : "-")
+				+ (canWrite() ? "w" : "-")
+				+ (canExecute() ? "x" : "-");
 	}
 	
 	public String getRealAbsolutePath() {
@@ -62,19 +71,37 @@ public class EnhancedFile extends File {
 	}
 	
 	public boolean deleteCascade() {
-		return _delete_cascade(this);
+		return deleteCascade(this);
 	}
 	
-	public boolean _delete_cascade(File f) {
+	public static boolean deleteCascade(File f) {
 		
-		// petite fonction récursive pour la frime
+		return walkFiles(new FileWalker<Boolean>() {
+			public Boolean walk(File f, Boolean result) {
+				if (!f.delete()) result = false;
+				return result;
+			}
+		}, f, true);
+		
+		/* petite fonction récursive pour la frime
+		if (f == null) return false;
 		if (!f.isDirectory()) return f.delete();
 		for (File files : f.listFiles())
-			return _delete_cascade(files);
-		return f.delete();
+			deleteCascade(files);
+		return f.delete();*/
 		
 	}
-
+	
+	public static int countFiles(File f) {
+		
+		return walkFiles(new FileWalker<Integer>() {
+			public Integer walk(File f, Integer result) {
+				return result+1;
+			}
+		}, f, 0);
+		
+	}
+	
 	public boolean copyTo(File to) {
 
 		FileChannel in = null; // canal d'entrée
@@ -123,6 +150,29 @@ public class EnhancedFile extends File {
 		
 		return renameTo(to);
 		
+	}
+
+	public List<File> listAllFiles() {
+		return listAllFiles(new ArrayList<File>(), this);
+	}
+	
+	public List<File> listAllFiles(ArrayList<File> files, File f) {
+		if (f == null) return files;
+		for (File fs : f.listFiles())
+			listAllFiles(files, fs);
+		files.add(f);
+		return files;
+	}
+	
+	public static <Result> Result walkFiles(FileWalker<Result> fw, File f, Result r) {
+		if (f == null) return null;
+		for (File fs : f.listFiles())
+			walkFiles(fw, fs, r);
+		return fw.walk(f, r);
+	}
+	
+	public static interface FileWalker<Result> {
+		public Result walk(File f, Result r);
 	}
 
 }
