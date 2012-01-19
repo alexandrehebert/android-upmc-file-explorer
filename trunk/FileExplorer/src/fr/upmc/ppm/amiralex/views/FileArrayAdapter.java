@@ -26,18 +26,22 @@ import fr.upmc.ppm.amiralex.tools.Utils;
  */
 public class FileArrayAdapter extends ArrayAdapter<File> {
 
-	private String emptyString, elementsString;
+	public static String emptyString, elementsString;
 	private File current;
-	private TypeMod mod;
+	private FileItemModeler mod;
 
 	public FileArrayAdapter(Context context, int textViewResourceId,
-			File[] objects, TypeMod mod) {
+			File[] objects, FileItemModeler mod) {
 		super(context, textViewResourceId, objects);
+		if (emptyString == null) ressources(context);
+		this.mod = mod;
+	}
+	
+	public static final void ressources(Context context) {
 		emptyString = context.getResources()
 				.getString(R.string.file_more_empty);
 		elementsString = context.getResources().getString(
 				R.string.file_more_elements);
-		this.mod = mod;
 	}
 
 	@Override
@@ -95,64 +99,8 @@ public class FileArrayAdapter extends ArrayAdapter<File> {
 		return current;
 	}
 
-	public void setMod(TypeMod modsEnum) {
+	public void setMod(FileItemModeler modsEnum) {
 		this.mod = modsEnum;
-	}
-
-	public class FileItem {
-		
-		View v;
-		TextView label, labelMore, labelDate, labelRights;
-		ImageView icon;
-		int i;
-
-		public FileItem(View v, int i) {
-			this.v = v;
-			this.i = i;
-			
-			label = (TextView) v.findViewById(R.id.file);
-			labelMore = (TextView) v.findViewById(R.id.fileMore);
-			labelDate = (TextView) v.findViewById(R.id.fileDate);
-			labelRights = (TextView) v.findViewById(R.id.fileRights);
-			icon = (ImageView) v.findViewById(R.id.icon);
-		}
-		
-		public void configure(TypeMod mod) {
-
-			int list = 2;
-			switch (mod) {
-			case GRID:
-				icon.setMinimumWidth(150);
-				v.setBackgroundColor(i % 2 == 0 ? Color.LTGRAY : Color.GRAY);
-			case LIST_LIGHT: --list;
-			case LIST: --list;
-			case LIST_ADVANCED:
-				if (mod != TypeMod.GRID) {
-					icon.setMinimumWidth(30);
-					v.setBackgroundColor(Color.TRANSPARENT);
-				}
-				labelMore.setVisibility(list > 0 ? View.VISIBLE : View.GONE);
-				labelDate.setVisibility(list > 1 ? View.VISIBLE : View.GONE);
-				labelRights.setVisibility(list > 1 ? View.VISIBLE : View.GONE);
-				break;
-			}
-			
-		}
-		
-		public void show(EnhancedFile f) {
-
-            String textLabel = f.getName();
-            long elements = f.getLength();
-            
-            label.setText(textLabel);
-            labelDate.setText("(" + f.lastModified("d/MM/y", v.getContext().getResources().getString(R.string.unknown)) + ")");
-            labelRights.setText(f.getRights());
-            labelMore.setText(!f.isDirectory() ? Utils.formatSize(elements, 0) : (elements == 0 ? emptyString : elements + " " + elementsString));
-            icon.setImageResource(f.getImageRessource());
-            icon.refreshDrawableState();
-            
-		}
-
 	}
 
 }

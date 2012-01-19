@@ -25,6 +25,7 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity android:name=".activities.FileBinActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
+        <activity android:name=".activities.FileSettingsActivity" android:theme="@android:style/Theme.NoTitleBar" />
     </application>
 
 </manifest>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/options_mod" >
+
+        <ListPreference
+   			android:key="mod"
+   			android:title="@string/mod_by_title"
+   			android:summary="@string/mod_by_more"
+            android:defaultValue="1"
+            android:entries="@array/mod_by"
+            android:entryValues="@array/mod_by_ids" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/options_sort" >
+
+        <ListPreference
+   			android:key="sort"
+   			android:title="@string/sort_by_title"
+   			android:summary="@string/sort_by_more"
+            android:defaultValue="2"
+            android:entries="@array/sort_by"
+            android:entryValues="@array/sort_by_ids" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string name="app_name">File Walker</string>
-    
     <string name="file_more_empty">empty</string>
     <string name="file_more_elements">elements</string>
-    
     <string name="options_share">Share</string>
     <string name="options_mod">Display</string>
     <string name="options_create">New folder</string>
@@ -14,7 +12,7 @@
     <string name="options_sort">Sort</string>
     <string name="options_bin">Trash</string>
     <string name="options_emptybin">Clear</string>
-    
+    <string name="options_settings">Settings</string>
     <string name="menu_remove">Delete</string>
     <string name="menu_move">Move</string>
     <string name="menu_copy">Copy</string>
@@ -23,12 +21,9 @@
     <string name="menu_paste">Paste</string>
     <string name="menu_details">More</string>
     <string name="menu_restore">Restore</string>
-    
     <string name="details_type">Type :</string>
     <string name="details_size">Size :</string>
-    
     <string name="create_dir_message">Name :</string>
-    
     <string name="type_image">Image</string>
     <string name="type_audio">Audio</string>
     <string name="type_video">Video</string>
@@ -36,38 +31,46 @@
     <string name="type_unknown">Unknown</string>
     <string name="type_folder">Folder</string>
     <string name="type_text">Plain text</string>
-        
     <string name="ok">Ok</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
-    
     <string name="copy_shot"> copied !</string>
     
     <string name="sort_by_title">Sort by...</string>
-    <string-array
-        name="sort_by">
-	    <item name="date">Date</item>
-	    <item name="ext">Extension</item>
-	    <item name="name">Name</item>
+    <string name="sort_by_more">Switch sort mod</string>
+    <string-array name="sort_by">
+        <item name="date">Date</item>
+        <item name="ext">Extension</item>
+        <item name="name">Name</item>
+    </string-array>
+    <string-array name="sort_by_ids">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string name="mod_by_title">Display by...</string>
-    <string-array
-        name="mod_by">
-	    <item name="date">Simple List</item>
-	    <item name="date">List (default)</item>
-	    <item name="ext">Advanced List</item>
-	    <item name="name">Grid</item>
+    <string name="mod_by_more">Switch display mod</string>
+    <string-array name="mod_by">
+        <item name="date">Simple List</item>
+        <item name="date">List (default)</item>
+        <item name="ext">Advanced List</item>
+        <item name="name">Grid</item>
     </string-array>
-    
+    <string-array name="mod_by_ids">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
     <string name="create_dir_error">File creation failed</string>
     <string name="remove_file_error">File deletion failed</string>
     <string name="copy_file_error">File copy failed</string>
     <string name="cut_file_error">File movement failed</string>
     <string name="rename_file_error">File renaming failed</string>
     <string name="remove_folder_error">Impossible to remove the entire folder</string>
-    
     <string name="unknown">unknown</string>
-        
+
 </resources>

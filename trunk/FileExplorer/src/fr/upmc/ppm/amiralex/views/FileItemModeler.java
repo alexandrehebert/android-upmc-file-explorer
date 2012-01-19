@@ -1,6 +1,6 @@
 package fr.upmc.ppm.amiralex.views;
 
-public enum TypeMod {
+public enum FileItemModeler {
 	
 	LIST_LIGHT,
 	LIST,
