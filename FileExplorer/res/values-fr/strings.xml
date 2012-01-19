@@ -32,7 +32,7 @@
     <string name="type_audio">Audio</string>
     <string name="type_video">Video</string>
     <string name="type_internet">Internet</string>
-    <string name="type_unknown">Inconnu</string>
+    <string name="type_unknown">Unknown</string>
     <string name="type_folder">Folder</string>
     <string name="type_text">Plain text</string>
         
