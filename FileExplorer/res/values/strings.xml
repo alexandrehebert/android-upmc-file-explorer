@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="app_name">File Explorer</string>
+    <string name="app_name">File Walker</string>
     
     <string name="file_more_empty">vide</string>
     <string name="file_more_elements">éléments</string>
     
     <string name="options_share">Partager</string>
+    <string name="options_mod">Affichage</string>
     <string name="options_create">Nouveau dossier</string>
     <string name="options_preview">Aperçu</string>
     <string name="options_remove">Supprimer</string>
+    <string name="options_sort">Tri</string>
     <string name="options_bin">Corbeille</string>
     <string name="options_emptybin">Vider</string>
     
@@ -38,6 +40,25 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="cancel">Annuler</string>
+    
+    <string name="copy_shot"> copié !</string>
+    
+    <string name="sort_by_title">Trier par...</string>
+    <string-array
+        name="sort_by">
+	    <item name="date">Date</item>
+	    <item name="ext">Extention</item>
+	    <item name="name">Nom</item>
+    </string-array>
+
+    <string name="mod_by_title">Afficher par...</string>
+    <string-array
+        name="mod_by">
+	    <item name="date">Liste simplifiée</item>
+	    <item name="date">Liste (défaut)</item>
+	    <item name="ext">Liste avancée</item>
+	    <item name="name">Grille</item>
+    </string-array>
     
     <string name="create_dir_error">La création du dossier a échoué</string>
     <string name="remove_file_error">La suppression du fichier a échoué</string>
