@@ -11,6 +11,12 @@ import fr.upmc.ppm.amiralex.tools.FileTypeResolver.FileType;
 
 /**
  * 
+ * Ensemble d'opérations sur les fichiers. On peut ainsi :
+ * - supprimer un dossier récursivement,
+ * - trouver l'extention d'un fichier,
+ * - mettre en forme la liste des droits du File (rwx)
+ * - etc
+ * 
  * @author alexandre hebert
  *
  */
