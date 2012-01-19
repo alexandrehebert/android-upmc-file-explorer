@@ -528,8 +528,6 @@ public class FileExplorerActivity extends ListActivity {
 					root.getAbsolutePath()));
 		sort = FileItemSorter.values()[settings.getInt(PREF_KEY_SORT, 0)];
 		
-		Log.d("blah", mod + " " + sort);
-		
 		/*
 		Map<String, ?> prefs = settings.getAll();
 		for (Entry<String, ?> pref : prefs.entrySet())
