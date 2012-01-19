@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 import fr.upmc.ppm.amiralex.tools.EnhancedFile;
 
-public enum FileArrayComparator implements Comparator<File> {
+public enum FileItemSorter implements Comparator<File> {
 	
 	// ne pas modifier l'ordre (donc les indices) !!.. très important, un peu codé à l'arrache mais bon...
 	// les ids correspondent aux tuples du string-array du fichier de ressources

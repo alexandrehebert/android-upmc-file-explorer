@@ -54,7 +54,7 @@ public class FileDetailsActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (type.isPreviewable())
 			menu.add(Menu.NONE, R.string.options_preview, Menu.NONE, R.string.options_preview).setIcon(R.drawable.preview_selector);
-		if (!file.isDirectory())
+		if (!file.isDirectory() || file.listFiles() == null || file.listFiles().length == 0)
 			menu.add(Menu.NONE, R.string.options_remove, Menu.NONE, R.string.options_remove).setIcon(R.drawable.remove_selector);
 		return super.onCreateOptionsMenu(menu);
 	}

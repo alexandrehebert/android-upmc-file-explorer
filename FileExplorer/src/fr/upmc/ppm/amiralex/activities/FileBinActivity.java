@@ -5,11 +5,13 @@ import java.io.File;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import fr.upmc.ppm.amiralex.R;
 
 /**
@@ -27,6 +29,11 @@ public class FileBinActivity extends FileExplorerActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		((TextView) findViewById(R.id.title)).setText(R.string.options_bin);
+		rootBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 	
 	@Override
@@ -39,11 +46,17 @@ public class FileBinActivity extends FileExplorerActivity {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
+		menu.add(Menu.NONE, R.string.menu_restore, Menu.NONE, R.string.menu_restore);
 		return;
 	}
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.string.menu_restore:
+			Toast.makeText(this, "soon....", Toast.LENGTH_LONG).show();
+			break;
+		}
 		return false;
 	}
 	

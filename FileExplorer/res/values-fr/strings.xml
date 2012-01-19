@@ -14,6 +14,7 @@
     <string name="options_sort">Tri</string>
     <string name="options_bin">Corbeille</string>
     <string name="options_emptybin">Vider</string>
+    <string name="options_settings">Paramètres</string>
     
     <string name="menu_remove">Supprimer</string>
     <string name="menu_move">Déplacer</string>
@@ -45,6 +46,7 @@
     <string name="copy_shot"> copié !</string>
     
     <string name="sort_by_title">Trier par...</string>
+    <string name="sort_by_more">Change la politique de tri des élements</string>
     <string-array
         name="sort_by">
 	    <item name="date">Date</item>
@@ -53,6 +55,7 @@
     </string-array>
 
     <string name="mod_by_title">Afficher par...</string>
+    <string name="mod_by_more">Change la politique d\'affichage des élements</string>
     <string-array
         name="mod_by">
 	    <item name="date">Liste simplifiée</item>

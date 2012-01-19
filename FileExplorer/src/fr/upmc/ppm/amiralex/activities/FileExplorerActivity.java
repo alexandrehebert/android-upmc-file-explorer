@@ -3,7 +3,6 @@ package fr.upmc.ppm.amiralex.activities;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -29,8 +28,8 @@ import fr.upmc.ppm.amiralex.R;
 import fr.upmc.ppm.amiralex.tools.EnhancedFile;
 import fr.upmc.ppm.amiralex.tools.FileTypeResolver.FileType;
 import fr.upmc.ppm.amiralex.views.FileArrayAdapter;
-import fr.upmc.ppm.amiralex.views.FileArrayComparator;
-import fr.upmc.ppm.amiralex.views.TypeMod;
+import fr.upmc.ppm.amiralex.views.FileItemModeler;
+import fr.upmc.ppm.amiralex.views.FileItemSorter;
 
 public class FileExplorerActivity extends ListActivity {
 
@@ -49,19 +48,19 @@ public class FileExplorerActivity extends ListActivity {
 	private FileArrayAdapter listAdapter; // adapter de la listView
 
 	// mode d'affichage
-	private TypeMod mod = TypeMod.LIST;
+	private FileItemModeler mod = FileItemModeler.LIST;
 	// mode de tri
-	private FileArrayComparator sort = FileArrayComparator.BY_DONT_CARE;
+	private FileItemSorter sort = FileItemSorter.BY_DONT_CARE;
 
 	/* ---------------------------------------------------------------------- */
 	// constantes
 	/* ---------------------------------------------------------------------- */
 
 	private static final String TRASH_NAME = "RECYCLE.BIN";
-	private static final String PREF_NAME = "File_Explorer_Pref";
+	public static final String PREF_NAME = "File_Explorer_Pref";
 	private static final String PREF_KEY_CURRENT = "currentFile";
-	private static final String PREF_KEY_MOD = "typeMod";
-	private static final String PREF_KEY_SORT = "sortList";
+	public static final String PREF_KEY_MOD = "typeMod";
+	public static final String PREF_KEY_SORT = "sortList";
 	private static final String PREF_KEY_RESTORE = "restore.";
 
 	/* ---------------------------------------------------------------------- */
@@ -78,7 +77,6 @@ public class FileExplorerActivity extends ListActivity {
 				: "/mnt/sdcard/";
 
 		root = new File(rootName);
-		current = root;
 
 		if (!root.exists())
 			root.mkdirs(); // root = new File("/");
@@ -97,6 +95,7 @@ public class FileExplorerActivity extends ListActivity {
 				setDirectory(root);
 			}
 		});
+		
 		parentBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				setDirectory(current.getParentFile());
@@ -138,6 +137,7 @@ public class FileExplorerActivity extends ListActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 10) loadPreferences();
 		refreshDirectory();
 	}
 
@@ -156,6 +156,8 @@ public class FileExplorerActivity extends ListActivity {
 				R.string.options_mod).setIcon(R.drawable.mod_selector);
 		menu.add(Menu.NONE, R.string.options_sort, Menu.NONE,
 				R.string.options_sort).setIcon(R.drawable.sort_selector);
+		menu.add(Menu.NONE, R.string.options_settings, Menu.NONE,
+				R.string.options_settings).setIcon(R.drawable.settings_selector);
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -242,6 +244,9 @@ public class FileExplorerActivity extends ListActivity {
 			break;
 		case R.string.options_mod:
 			openModMenu();
+			break;
+		case R.string.options_settings:
+			openPreferences();
 			break;
 		}
 
@@ -408,7 +413,7 @@ public class FileExplorerActivity extends ListActivity {
 	 * @param item
 	 */
 	private void switchMod(int item) {
-		mod = TypeMod.values()[item];
+		mod = FileItemModeler.values()[item];
 		((FileArrayAdapter) getListAdapter()).setMod(mod);
 		getListView().invalidateViews();
 	}
@@ -419,7 +424,7 @@ public class FileExplorerActivity extends ListActivity {
 	 * @param item
 	 */
 	protected void switchSort(int item) {
-		sort = FileArrayComparator.values()[item];
+		sort = FileItemSorter.values()[item];
 		if (listAdapter != null)
 			listAdapter.sort(sort);
 	}
@@ -451,6 +456,10 @@ public class FileExplorerActivity extends ListActivity {
 			}
 		});
 		builder.create().show();
+	}
+	
+	private void openPreferences() {
+		startActivityForResult(new Intent(this, FileSettingsActivity.class), 10);
 	}
 
 	/**
@@ -496,7 +505,7 @@ public class FileExplorerActivity extends ListActivity {
 	 * @param name
 	 */
 	public void renameFile(File f, String name) {
-		if (f.renameTo(new File(current.getAbsolutePath() + "/" + name)))
+		if (f.renameTo(new File(new EnhancedFile(current).getRealAbsolutePath() + "/" + name)))
 			refreshDirectory();
 		else
 			Toast.makeText(FileExplorerActivity.this,
@@ -510,13 +519,16 @@ public class FileExplorerActivity extends ListActivity {
 	private void loadPreferences() {
 
 		SharedPreferences settings = getSharedPreferences(
-				PREF_NAME + isTrash(), 0);
+				PREF_NAME + isTrash(), Context.MODE_WORLD_WRITEABLE);
 
-		mod = TypeMod.values()[settings.getInt(PREF_KEY_MOD,
-				TypeMod.LIST.ordinal())];
-		current = new File(settings.getString(PREF_KEY_CURRENT,
-				root.getAbsolutePath()));
-		sort = FileArrayComparator.values()[settings.getInt(PREF_KEY_SORT, 0)];
+		mod = FileItemModeler.values()[settings.getInt(PREF_KEY_MOD,
+				FileItemModeler.LIST.ordinal())];
+		if (current == null)
+			current = new File(settings.getString(PREF_KEY_CURRENT,
+					root.getAbsolutePath()));
+		sort = FileItemSorter.values()[settings.getInt(PREF_KEY_SORT, 0)];
+		
+		Log.d("blah", mod + " " + sort);
 		
 		/*
 		Map<String, ?> prefs = settings.getAll();
@@ -533,9 +545,9 @@ public class FileExplorerActivity extends ListActivity {
 	 * de la corbeille et celles du panneau principal sont dissociées
 	 */
 	private void commitPreferences() {
-
+		
 		SharedPreferences settings = getSharedPreferences(
-				PREF_NAME + isTrash(), 0);
+				PREF_NAME + isTrash(), Context.MODE_WORLD_WRITEABLE);
 		SharedPreferences.Editor editor = settings.edit();
 
 		editor.putInt(PREF_KEY_MOD, mod.ordinal());
@@ -584,8 +596,7 @@ public class FileExplorerActivity extends ListActivity {
 	 */
 	public void renameFileWithAlertDialog(final File f) {
 
-		View v = getLayoutInflater()
-				.inflate(R.layout.input, this.getListView());
+		View v = getLayoutInflater().inflate(R.layout.input, null);
 		final EditText edit = (EditText) v.findViewById(R.id.input);
 		edit.setText(f.getName());
 		new AlertDialog.Builder(this)
