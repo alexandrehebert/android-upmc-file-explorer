@@ -1,12 +1,9 @@
 package fr.upmc.ppm.amiralex.views;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
