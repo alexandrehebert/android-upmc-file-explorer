@@ -22,6 +22,7 @@
     <string name="menu_cut">Couper</string>
     <string name="menu_paste">Coller</string>
     <string name="menu_details">Détails</string>
+    <string name="menu_restore">Restaurer</string>
     
     <string name="details_type">Type :</string>
     <string name="details_size">Taille :</string>

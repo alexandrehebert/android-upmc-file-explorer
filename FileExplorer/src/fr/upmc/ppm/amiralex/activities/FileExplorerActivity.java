@@ -1,6 +1,9 @@
 package fr.upmc.ppm.amiralex.activities;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -42,11 +45,13 @@ public class FileExplorerActivity extends ListActivity {
 	private File copy; // fichier dont la copie est demandée
 	private boolean cut = false; // copie ou coupie xD
 	private File trash; // emplacement de la corbeille
+	private Map<String, String> trashFiles = new HashMap<String, String>();
 	private FileArrayAdapter listAdapter; // adapter de la listView
-	private TypeMod mod = TypeMod.LIST; // mode d'affichage
-	private FileArrayComparator sort = FileArrayComparator.BY_DONT_CARE; // mode
-																			// de
-																			// tri
+
+	// mode d'affichage
+	private TypeMod mod = TypeMod.LIST;
+	// mode de tri
+	private FileArrayComparator sort = FileArrayComparator.BY_DONT_CARE;
 
 	/* ---------------------------------------------------------------------- */
 	// constantes
@@ -57,6 +62,7 @@ public class FileExplorerActivity extends ListActivity {
 	private static final String PREF_KEY_CURRENT = "currentFile";
 	private static final String PREF_KEY_MOD = "typeMod";
 	private static final String PREF_KEY_SORT = "sortList";
+	private static final String PREF_KEY_RESTORE = "restore.";
 
 	/* ---------------------------------------------------------------------- */
 	// évènements système
@@ -359,6 +365,7 @@ public class FileExplorerActivity extends ListActivity {
 		if (!hasTrash())
 			return false;
 		boolean b = removePermanentlyFileWithLoading(trash);
+		trashFiles.clear();
 		createTrash();
 		return b;
 	}
@@ -497,31 +504,46 @@ public class FileExplorerActivity extends ListActivity {
 	}
 
 	/**
-	 * Chargement des préférences
+	 * Chargement des préférences les préférences de la corbeille et celles du
+	 * panneau principal sont dissociées
 	 */
 	private void loadPreferences() {
 
 		SharedPreferences settings = getSharedPreferences(
 				PREF_NAME + isTrash(), 0);
+
 		mod = TypeMod.values()[settings.getInt(PREF_KEY_MOD,
 				TypeMod.LIST.ordinal())];
 		current = new File(settings.getString(PREF_KEY_CURRENT,
 				root.getAbsolutePath()));
 		sort = FileArrayComparator.values()[settings.getInt(PREF_KEY_SORT, 0)];
+		
+		/*
+		Map<String, ?> prefs = settings.getAll();
+		for (Entry<String, ?> pref : prefs.entrySet())
+			if (pref.getKey().startsWith(PREF_KEY_RESTORE))
+				trashFiles.put(
+						pref.getKey().substring(PREF_KEY_RESTORE.length()),
+						(String) pref.getValue());*/
 
 	}
 
 	/**
-	 * Enregistrement des préférences : pérénisation des données
+	 * Enregistrement des préférences : pérénisation des données les préférences
+	 * de la corbeille et celles du panneau principal sont dissociées
 	 */
 	private void commitPreferences() {
 
 		SharedPreferences settings = getSharedPreferences(
 				PREF_NAME + isTrash(), 0);
 		SharedPreferences.Editor editor = settings.edit();
+
 		editor.putInt(PREF_KEY_MOD, mod.ordinal());
 		editor.putInt(PREF_KEY_SORT, sort.ordinal());
 		editor.putString(PREF_KEY_CURRENT, current.getAbsolutePath());
+		/*for (Entry<String, String> pref : trashFiles.entrySet())
+			editor.putString(PREF_KEY_RESTORE + pref.getKey(), pref.getValue());*/
+
 		editor.commit();
 
 	}
@@ -588,7 +610,7 @@ public class FileExplorerActivity extends ListActivity {
 	/* ---------------------------------------------------------------------- */
 	// méthodes qui devront être rendues asynchrones à therme
 	/* ---------------------------------------------------------------------- */
-	
+
 	public boolean copyFileWithLoading(File from, File to) {
 		if (new EnhancedFile(from).copyTo(to))
 			return true;
@@ -611,8 +633,9 @@ public class FileExplorerActivity extends ListActivity {
 		 * return true; Toast.makeText(this, R.string.remove_folder_error,
 		 * Toast.LENGTH_SHORT); return false; }
 		 */
-		
+
 		// le fichier est déplacé dans la corbeille, non plus supprimé
+		// trashFiles.put(PREF_KEY_RESTORE + f.getAbsolutePath(), f.getName());
 		return cutFileWithLoading(f, trash);
 	}
 
