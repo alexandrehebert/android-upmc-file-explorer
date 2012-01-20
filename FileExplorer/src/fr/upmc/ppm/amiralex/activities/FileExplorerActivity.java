@@ -556,7 +556,7 @@ public class FileExplorerActivity extends ListActivity {
 
 		editor.commit();
 
-	}
+	} 
 
 	/**
 	 * Création d'un nouveau dossier à partir du nom transmis depuis une boite
