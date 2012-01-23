@@ -9,7 +9,7 @@ public enum FileItemSorter implements Comparator<File> {
 	
 	// ne pas modifier l'ordre (donc les indices) !!.. très important, un peu codé à l'arrache mais bon...
 	// les ids correspondent aux tuples du string-array du fichier de ressources
-	BY_DATE, BY_EXT, BY_NAME, BY_DONT_CARE;
+	BY_DATE, BY_EXT, BY_NAME, BY_TYPE, BY_DONT_CARE;
 
 	public int compare(File f1, File f2) {
 		switch (this) {
@@ -18,6 +18,9 @@ public enum FileItemSorter implements Comparator<File> {
 		case BY_EXT:
 			return new EnhancedFile(f1).getExt()
 					.compareTo(new EnhancedFile(f2).getExt());
+		case BY_TYPE:
+			if (f1.isDirectory() && !f2.isDirectory()) return -1;
+			if (f2.isDirectory() && !f1.isDirectory()) return 1;
 		case BY_NAME:
 			return f1.getAbsolutePath().toLowerCase()
 					.compareTo(f2.getAbsolutePath().toLowerCase());
