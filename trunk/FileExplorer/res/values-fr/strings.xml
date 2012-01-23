@@ -27,6 +27,8 @@
     
     <string name="details_type">Type :</string>
     <string name="details_size">Taille :</string>
+    <string name="details_date">Dernière modification :</string>
+    <string name="details_rights">Droits :</string>
     
     <string name="create_dir_message">Nom :</string>
     

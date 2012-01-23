@@ -17,7 +17,7 @@ public class FileDetailsActivity extends Activity {
 	private EnhancedFile file;
 	private FileType type;
 	private String ext, size;
-	private TextView nameView, sizeView, typeView;
+	private TextView nameView, sizeView, typeView, dateView, rghtView;
 	private ImageView iconView;
 	private String emptyString, elementsString;
 
@@ -43,10 +43,14 @@ public class FileDetailsActivity extends Activity {
 
 		sizeView = (TextView) findViewById(R.id.detailsSize);
 		typeView = (TextView) findViewById(R.id.detailsType);
-
+		dateView = (TextView) findViewById(R.id.detailsDate);
+		rghtView = (TextView) findViewById(R.id.detailsRights);
+		
 		nameView.setText(file.getName());
 		typeView.setText(ext);
 		sizeView.setText(size);
+		dateView.setText(file.lastModified("d/MM/y"));
+		rghtView.setText(file.getRights());
 		iconView.setImageResource(file.getImageRessource());
 	}
 

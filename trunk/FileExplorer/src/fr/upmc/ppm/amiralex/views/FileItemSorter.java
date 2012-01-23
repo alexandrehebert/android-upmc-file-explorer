@@ -12,7 +12,7 @@ public enum FileItemSorter implements Comparator<File> {
 	BY_DATE, BY_EXT, BY_NAME, BY_TYPE, BY_DONT_CARE;
 
 	public int compare(File f1, File f2) {
-		switch (this) {
+		PLOP : switch (this) {
 		case BY_DATE:
 			return (int) (f1.lastModified() - f2.lastModified());
 		case BY_EXT:

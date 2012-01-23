@@ -32,6 +32,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 
+
     <TableLayout
         android:id="@+id/tableLayout1"
         android:layout_width="match_parent"
@@ -61,7 +62,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -80,6 +81,49 @@
                 android:textColor="@color/text"
                 android:text="TextView" />
         </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text"
+                android:text="@string/details_date" />
+
+            <TextView
+                android:id="@+id/detailsDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textColor="@color/text"
+                android:text="TextView" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text"
+                android:text="@string/details_rights" />
+
+            <TextView
+                android:id="@+id/detailsRights"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textColor="@color/text"
+                android:text="TextView" />
+        </TableRow>
+
     </TableLayout>
 
 </LinearLayout>

@@ -63,7 +63,6 @@ public class EnhancedFile extends File {
 	}
 	
 	public String lastModified(String format) {
-		
 		return lastModified(format, "-");
 		
 	}
