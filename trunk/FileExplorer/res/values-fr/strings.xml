@@ -52,8 +52,9 @@
 	    <item name="date">Date</item>
 	    <item name="ext">Extension</item>
 	    <item name="name">Nom</item>
+	    <item name="name">Type</item>
     </string-array>
-
+	
     <string name="mod_by_title">Afficher par...</string>
     <string name="mod_by_more">Change la politique d\'affichage des élements</string>
     <string-array
