@@ -21,8 +21,10 @@
     <string name="menu_paste">Paste</string>
     <string name="menu_details">More</string>
     <string name="menu_restore">Restore</string>
-    <string name="details_type">Type :</string>
+    <string name="details_type">Kind :</string>
     <string name="details_size">Size :</string>
+    <string name="details_date">Last modified :</string>
+    <string name="details_rights">Rights :</string>
     <string name="create_dir_message">Name :</string>
     <string name="type_image">Image</string>
     <string name="type_audio">Audio</string>
