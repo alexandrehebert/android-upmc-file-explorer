@@ -41,7 +41,7 @@
     <string name="sort_by_more">Switch sort mod</string>
     <string-array name="sort_by">
         <item name="date">Date</item>
-        <item name="ext">Extension</item>
+        <item name="ext">Extention</item>
         <item name="name">Name</item>
     </string-array>
     <string-array name="sort_by_ids">

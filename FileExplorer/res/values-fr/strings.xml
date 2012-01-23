@@ -50,7 +50,7 @@
     <string-array
         name="sort_by">
 	    <item name="date">Date</item>
-	    <item name="ext">Extention</item>
+	    <item name="ext">Extension</item>
 	    <item name="name">Nom</item>
     </string-array>
 
@@ -58,7 +58,7 @@
     <string name="mod_by_more">Change la politique d\'affichage des élements</string>
     <string-array
         name="mod_by">
-	    <item name="date">Liste simplifiée</item>
+	    <item name="date">Liste compacte</item>
 	    <item name="date">Liste (défaut)</item>
 	    <item name="ext">Liste avancée</item>
 	    <item name="name">Grille</item>
